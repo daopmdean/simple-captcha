@@ -44,7 +44,7 @@ func generateCaptcha(c *gin.Context) {
 	redisClient.Set(ctx, captchaID, captchaText, 5*time.Minute)
 
 	// Generate CAPTCHA image
-	imageData, err := generateCaptchaText(captchaText)
+	imageData, err := generateCaptchaImg(captchaText)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate CAPTCHA"})
 		return
@@ -67,7 +67,7 @@ func generateRandomString(length int) string {
 }
 
 // Generate a CAPTCHA image
-func generateCaptchaText(text string) ([]byte, error) {
+func generateCaptchaImg(text string) ([]byte, error) {
 	const width, height = 200, 80
 	dc := gg.NewContext(width, height)
 
