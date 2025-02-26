@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"image/color"
+	"log"
 	"math/rand"
 	"net/http"
 	"time"
@@ -23,6 +24,11 @@ func main() {
 	redisClient = redis.NewClient(&redis.Options{
 		Addr: "localhost:6379",
 	})
+	if err := redisClient.Ping(ctx).Err(); err != nil {
+		log.Fatal("Failed to connect to Redis:", err)
+	}
+
+	fmt.Println("Connected to Redis successfully")
 
 	// Setup Gin router
 	r := gin.Default()
